@@ -1,0 +1,25 @@
+---
+- hosts: all
+  connection: local
+
+  pre_tasks:
+    - name: Include default var files
+      include_vars: default.config.yml
+
+    - name: Include home var files
+      include_vars: home.config.yml
+      when: ansible_domain == "home"
+
+  roles:
+    - role: geerlingguy.homebrew
+      tags: ['homebrew']
+      when: ansible_os_family == "Darwin"
+    - role: geerlingguy.dotfiles
+      when: configure_dotfiles
+      tags: ['dotfiles']
+
+  tasks:
+    - include: tasks/ansible-setup.yml
+
+    - include: tasks/extra-packages.yml
+      tags: ['extra-packages']
