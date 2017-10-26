@@ -1,0 +1,13 @@
+- name: Install homebrew packages
+  homebrew:
+    name: "{{ item.name }}"
+    state: present
+    options: "{{ item.options |default('') }}"
+  with_items: "{{ homebrew_installed_packages }}"
+
+- name: Install homebrew cask packages
+  homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    install_options: "appdir={{ homebrew_cask_appdir }}"
+  with_items:  "{{ homebrew_cask_apps }}"

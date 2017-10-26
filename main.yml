@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: localhost
   connection: local
 
   pre_tasks:
@@ -11,15 +11,21 @@
       when: ansible_domain == "home"
 
   roles:
-    - role: geerlingguy.homebrew
-      tags: ['homebrew']
-      when: ansible_os_family == "Darwin"
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
       tags: ['dotfiles']
 
   tasks:
-    - include: tasks/ansible-setup.yml
+    - import_tasks: tasks/ansible-setup.yml
 
-    - include: tasks/extra-packages.yml
+    - import_tasks: tasks/homebrew.yml
+      when: ansible_os_family == "Darwin"
+
+    - name: Check if additional packages should be installed
+      set_fact: 
+        additional_packages = true
+      when: composer_packages|len>0 or gem_packages|len>0 or  npm_packages|len>0 or pip_packages|len>0 or apt_packages|len>0 or rpm_packages|len>0
+
+    - import_tasks: tasks/extra-packages.yml
       tags: ['extra-packages']
+      when: additional_packages

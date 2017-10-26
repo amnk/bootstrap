@@ -3,35 +3,35 @@ downloads: ~/.ansible-downloads/
 
 configure_dotfiles: yes
 configure_terminal: yes
-configure_osx: yes
 
 dotfiles_repo: https://github.com/amnk/dotfiles.git
 dotfiles_repo_accept_hostkey: yes
-dotfiles_repo_local_destination: ~/src/github.com/amnk/dotfiles
+dotfiles_repo_local_destination: ~/dotfiles
 dotfiles_files:
   - .hammerspoon
   - .iterm2
-  #- .gitignore
-  #- .inputrc
-  #- .osx
-  #- .vimrc
+  - .vimrc
 
 homebrew_installed_packages:
-  - autoconf
-  - aws-elasticbeanstalk
-  - awscli
-  - bash-completion
-  - gettext
-  - git
-  - go
-  - gpg
-  - hub
-  - jq
-  - openssl
-  - readline
-  - ssh-copy-id
-  - terraform
-  - wget
+  - name: aws-elasticbeanstalk
+  - name: awscli
+  - name: bash-completion
+  - name: git
+  - name: go
+  - name: gpg
+  - name: hub
+  - name: jq
+  - name: openssl
+  - name: ripgrep
+  - name: ssh-copy-id
+  - name: terraform
+  - name: vim
+    options: "without-perl,without-ruby"
+  - name: wget
+
+homebrew_package_options:
+  vim: "without-perl,without-ruby"
+
 
 homebrew_taps:
   - homebrew/core
